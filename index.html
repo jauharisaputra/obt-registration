@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pendaftaran OBT Kalbar</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+
+            background:
+                linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                url('obt.jpeg');
+
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 40px auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(5px);
+        }
+
+        h1 {
+            text-align: center;
+            color: #0d47a1;
+            font-weight: bold;
+        }
+
+        .info {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            margin-top: 5px;
+        }
+
+        button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 12px;
+            background: #0d47a1;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1565c0;
+        }
+
+        .success {
+            display: none;
+            background: #4caf50;
+            color: white;
+            padding: 10px;
+            margin-top: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Pendaftaran OBT Kalimantan Barat</h1>
+
+        <div class="info">
+            Sabtu, 16 Mei 2026 • 08.30 - 12.30 WIB<br>
+            GPPS Filadelfia Pemangkat
+        </div>
+
+        <form id="form">
+            <label>Nama Lengkap</label>
+            <input type="text" name="nama" required>
+
+            <label>No WhatsApp</label>
+            <input type="text" name="wa" required>
+
+            <label>Asal Gereja</label>
+            <input type="text" name="gereja" required>
+
+            <label>Peran / Jabatan</label>
+            <select name="peran" required>
+                <option value="">-- Pilih --</option>
+                <option>Pendeta</option>
+                <option>Majelis</option>
+                <option>Jemaat</option>
+                <option>Evangelist</option>
+                <option>ULB (Utusan Lintas Budaya)</option>
+                <option>Tenaga Misi</option>
+                <option>Lainnya</option>
+            </select>
+
+            <label>Jumlah Orang yang Ikut</label>
+            <input type="number" name="jumlah" min="1" required>
+
+            <button type="submit">Daftar Sekarang</button>
+        </form>
+
+        <div class="success" id="successMsg">
+            ✅ Pendaftaran berhasil!
+        </div>
+    </div>
+
+    <script>
+        const scriptURL =
+            "https://script.google.com/macros/s/AKfycbyC7XX5QqlkslNvi0_s9MFe4bMsqBs9Oi5pjWG14BUAJFIDlKZ8YI4HLORttn4t3I0E2Q/exec";
+
+        document.getElementById("form").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+
+            fetch(scriptURL, {
+                    method: "POST",
+                    body: new URLSearchParams({
+                        nama: formData.get("nama"),
+                        wa: formData.get("wa"),
+                        gereja: formData.get("gereja"),
+                        peran: formData.get("peran"),
+                        jumlah: formData.get("jumlah")
+                    })
+                })
+                .then(res => res.text())
+                .then(() => {
+                    document.getElementById("successMsg").style.display = "block";
+                    document.getElementById("form").reset();
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("Gagal mengirim data");
+                });
+
+        }); // ← INI YANG KURANG
+    </script> <!-- ← INI JUGA -->
+
+</body>
+
+</html>
