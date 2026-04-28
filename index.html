@@ -95,7 +95,27 @@
             Sabtu, 16 Mei 2026 • 08.30 - 12.30 WIB<br>
             GPPS Filadelfia Pemangkat
         </div>
+        <div style="text-align:center; margin-bottom:20px;">
+            <h3>Total Peserta:</h3>
+            <h1 id="totalPeserta">0</h1>
 
+            <button onclick="toggleDetail()">Lihat Detail</button>
+        </div>
+
+        <div id="detailBox" style="display:none; max-height:300px; overflow:auto; margin-top:10px;">
+            <table border="1" width="100%" style="border-collapse:collapse;">
+                <thead>
+                    <tr>
+                        <th>Nama</th>
+                        <th>WA</th>
+                        <th>Gereja</th>
+                        <th>Peran</th>
+                        <th>Jumlah</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
         <form id="form">
             <label>Nama Lengkap</label>
             <input type="text" name="nama" required>
@@ -133,6 +153,7 @@
         const scriptURL =
             "https://script.google.com/macros/s/AKfycbyC7XX5QqlkslNvi0_s9MFe4bMsqBs9Oi5pjWG14BUAJFIDlKZ8YI4HLORttn4t3I0E2Q/exec";
 
+        // ✅ SUBMIT FORM
         document.getElementById("form").addEventListener("submit", function (e) {
             e.preventDefault();
 
@@ -152,15 +173,52 @@
                 .then(() => {
                     document.getElementById("successMsg").style.display = "block";
                     document.getElementById("form").reset();
+                    loadData(); // refresh data
                 })
                 .catch(err => {
                     console.error(err);
                     alert("Gagal mengirim data");
                 });
+        });
 
-        }); // ← INI YANG KURANG
-    </script> <!-- ← INI JUGA -->
 
+        // ✅ FUNCTION GLOBAL (PINDAH KE LUAR)
+        function loadData() {
+            fetch(scriptURL)
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById("totalPeserta").innerText = data.totalPeserta;
+
+                    const tbody = document.getElementById("tableBody");
+                    tbody.innerHTML = "";
+
+                    data.list.forEach(item => {
+                        const row = `
+                <tr>
+                    <td>${item.nama}</td>
+                    <td>${item.wa}</td>
+                    <td>${item.gereja}</td>
+                    <td>${item.peran}</td>
+                    <td>${item.jumlah}</td>
+                </tr>
+                `;
+                        tbody.innerHTML += row;
+                    });
+                });
+        }
+
+        // ✅ TOGGLE DETAIL (SEKARANG SUDAH BISA DIPANGGIL)
+        function toggleDetail() {
+            const box = document.getElementById("detailBox");
+            box.style.display = (box.style.display === "none") ? "block" : "none";
+        }
+
+        // ✅ LOAD AWAL
+        loadData();
+
+        // ✅ AUTO REFRESH
+        setInterval(loadData, 10000);
+    </script>
 </body>
 
 </html>
