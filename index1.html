@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pendaftaran OBT Kalbar</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+
+            background:
+                linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                url('obt.jpeg');
+
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 40px auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(5px);
+        }
+
+        h1 {
+            text-align: center;
+            color: #0d47a1;
+            font-weight: bold;
+        }
+
+        .info {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            margin-top: 5px;
+        }
+
+        button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 12px;
+            background: #0d47a1;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1565c0;
+        }
+
+        .success {
+            display: none;
+            background: #4caf50;
+            color: white;
+            padding: 10px;
+            margin-top: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* KIRI (BROSUR) */
+        .left {
+            flex: 1;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .left img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* KANAN (FORM) */
+        .right {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f5f7fa;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 500px;
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* RESPONSIVE (HP) */
+        @media (max-width: 768px) {
+            .wrapper {
+                flex-direction: column;
+            }
+
+            .left {
+                height: 300px;
+            }
+
+            .right {
+                padding: 20px 0;
+            }
+        }
+
+        .left::after {
+            content: "OBT KALBAR 2026";
+            position: absolute;
+            color: white;
+            font-size: 24px;
+        }
+
+        .container {
+            animation: fadeIn 0.6s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="wrapper">
+
+        <!-- 📄 KOLOM KIRI (BROSUR) -->
+        <div class="left">
+            <img src="obt.jpeg" alt="Brosur OBT">
+        </div>
+
+        <!-- 📝 KOLOM KANAN (FORM) -->
+        <div class="right">
+            <div class="container">
+                <h1>Pendaftaran OBT Kalimantan Barat</h1>
+
+                <div class="info">
+                    Sabtu, 16 Mei 2026 • 08.30 - 12.30 WIB<br>
+                    GPPS Filadelfia Pemangkat
+                </div>
+
+                <!-- COUNTER -->
+                <div style="text-align:center; margin-bottom:20px;">
+                    <h3>Total Peserta:</h3>
+                    <h1 id="totalPeserta">0</h1>
+                    <button onclick="toggleDetail()">Lihat Detail</button>
+                </div>
+
+                <!-- DETAIL -->
+                <div id="detailBox" style="display:none; max-height:300px; overflow:auto;">
+                    <table border="1" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Nama</th>
+                                <th>WA</th>
+                                <th>Gereja</th>
+                                <th>Peran</th>
+                                <th>Jumlah</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                </div>
+
+                <!-- FORM -->
+                <form id="form">
+                    <label>Nama Lengkap</label>
+                    <input type="text" name="nama" required>
+
+                    <label>No WhatsApp</label>
+                    <input type="text" name="wa" required>
+
+                    <label>Asal Gereja</label>
+                    <input type="text" name="gereja" required>
+
+                    <label>Peran / Jabatan</label>
+                    <select name="peran" required>
+                        <option value="">-- Pilih --</option>
+                        <option>Pendeta</option>
+                        <option>Majelis</option>
+                        <option>Jemaat</option>
+                        <option>Evangelist</option>
+                        <option>ULB (Utusan Lintas Budaya)</option>
+                        <option>Tenaga Misi</option>
+                        <option>Lainnya</option>
+                    </select>
+
+                    <label>Jumlah Orang yang Ikut</label>
+                    <input type="number" name="jumlah" min="1" required>
+
+                    <button type="submit">Daftar Sekarang</button>
+                </form>
+
+                <div class="success" id="successMsg">
+                    ✅ Pendaftaran berhasil!
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const scriptURL =
+            "https://script.google.com/macros/s/AKfycbyC7XX5QqlkslNvi0_s9MFe4bMsqBs9Oi5pjWG14BUAJFIDlKZ8YI4HLORttn4t3I0E2Q/exec";
+
+        // ✅ SUBMIT FORM
+        document.getElementById("form").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+
+            fetch(scriptURL, {
+                    method: "POST",
+                    body: new URLSearchParams({
+                        nama: formData.get("nama"),
+                        wa: formData.get("wa"),
+                        gereja: formData.get("gereja"),
+                        peran: formData.get("peran"),
+                        jumlah: formData.get("jumlah")
+                    })
+                })
+                .then(res => res.text())
+                .then(() => {
+                    document.getElementById("successMsg").style.display = "block";
+                    document.getElementById("form").reset();
+                    loadData(); // refresh data
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("Gagal mengirim data");
+                });
+        });
+
+
+        // ✅ FUNCTION GLOBAL (PINDAH KE LUAR)
+        function loadData() {
+            fetch(scriptURL)
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById("totalPeserta").innerText = data.totalPeserta;
+
+                    const tbody = document.getElementById("tableBody");
+                    tbody.innerHTML = "";
+
+                    data.list.forEach(item => {
+                        const row = `
+                <tr>
+                    <td>${item.nama}</td>
+                    <td>${item.wa}</td>
+                    <td>${item.gereja}</td>
+                    <td>${item.peran}</td>
+                    <td>${item.jumlah}</td>
+                </tr>
+                `;
+                        tbody.innerHTML += row;
+                    });
+                });
+        }
+
+        // ✅ TOGGLE DETAIL (SEKARANG SUDAH BISA DIPANGGIL)
+        function toggleDetail() {
+            const box = document.getElementById("detailBox");
+            box.style.display = (box.style.display === "none") ? "block" : "none";
+        }
+
+        // ✅ LOAD AWAL
+        loadData();
+
+        // ✅ AUTO REFRESH
+        setInterval(loadData, 10000);
+    </script>
+</body>
+
+</html>
